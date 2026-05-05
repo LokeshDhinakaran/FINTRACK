@@ -9,8 +9,14 @@ const db = new Database(path.join(__dirname, '../fintrack.sqlite'));
 // Wrapper (same mysql2 style)
 const pool = {
   query: async (sql, params = []) => {
-    // better-sqlite3 doesn't support Date objects, convert to strings
-    const sanitizedParams = params.map(p => p instanceof Date ? p.toISOString() : p);
+    // SQLite Compatibility: better-sqlite3 only supports (string, number, bigint, buffer, null)
+    const sanitizedParams = params.map(p => {
+      if (p instanceof Date)     return p.toISOString();
+      if (typeof p === 'boolean') return p ? 1 : 0;
+      if (p === undefined)       return null;
+      return p;
+    });
+
 
 
     const isSelect =
