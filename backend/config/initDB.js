@@ -223,11 +223,20 @@ async function initDB() {
   `);
 
   console.log('✅  All tables created & seeded');
-  // Just exit process gracefully
-  setTimeout(() => process.exit(0), 500);
 }
 
-initDB().catch(err => {
-  console.error('DB init failed:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  initDB()
+    .then(() => {
+      console.log('DB Initialization complete.');
+      process.exit(0);
+    })
+    .catch(err => {
+      console.error('DB init failed:', err);
+      process.exit(1);
+    });
+}
+
+module.exports = initDB;
+
+

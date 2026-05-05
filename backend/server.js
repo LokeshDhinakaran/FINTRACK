@@ -10,6 +10,8 @@ const { authenticate } = require('./middleware/auth');
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
+const initDB = require('./config/initDB');
+
 
 // ── Security ───────────────────────────────────────────
 app.use(helmet());
@@ -61,8 +63,18 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀  FinTrack API v2  →  http://localhost:${PORT}`);
-  console.log(`🌍  Env: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔐  JWT expires: ${process.env.JWT_EXPIRES_IN || '30m'}\n`);
-});
+// ── Start Server ───────────────────────────────────────
+initDB()
+  .then(() => {
+    console.log('📦 Database ready');
+    app.listen(PORT, () => {
+      console.log(`\n🚀  FinTrack API v2  →  http://localhost:${PORT}`);
+      console.log(`🌍  Env: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🔐  JWT expires: ${process.env.JWT_EXPIRES_IN || '30m'}\n`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ Database initialization failed:', err);
+    process.exit(1);
+  });
+
