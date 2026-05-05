@@ -24,7 +24,7 @@ function FloatInput({ label, type='text', value, onChange, onKeyDown }) {
         top: focused || value ? 8 : '50%',
         transform: focused || value ? 'none' : 'translateY(-50%)',
         fontSize: focused || value ? 10 : 14,
-        color: focused ? '#4ade80' : '#444',
+        color: focused ? '#4ade80' : 'rgba(255,255,255,0.4)',
         pointerEvents:'none', transition:'all .2s ease', zIndex:1,
         letterSpacing: focused || value ? '0.06em' : 0,
         textTransform: focused || value ? 'uppercase' : 'none',
@@ -46,7 +46,7 @@ function FloatInput({ label, type='text', value, onChange, onKeyDown }) {
         }}
       />
       {isPass && (
-        <button onClick={() => setVis(v => !v)} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', fontSize:16, color:'#444' }}>
+        <button onClick={() => setVis(v => !v)} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', fontSize:16, color:'rgba(255,255,255,0.4)' }}>
           {vis ? '👁' : '🔒'}
         </button>
       )}
@@ -150,7 +150,7 @@ export default function AuthPage() {
           </div>
           <div>
             <div style={{ fontFamily:'"Clash Display", sans-serif', fontSize:28, fontWeight:700, color:'#fff', lineHeight:1.1 }}>FinTrack</div>
-            <div style={{ fontSize:11, color:'#1a3a1a', letterSpacing:'0.08em', textTransform:'uppercase', marginTop:2 }}>Wealth Intelligence</div>
+            <div style={{ fontSize:11, color:'rgba(74,222,128,0.6)', letterSpacing:'0.08em', textTransform:'uppercase', marginTop:2 }}>Wealth Intelligence</div>
           </div>
         </div>
 
@@ -160,7 +160,7 @@ export default function AuthPage() {
           {mode === 'home' && (
             <div style={{ animation:'fadeUp .3s ease' }}>
               <div style={{ fontFamily:'"Clash Display", sans-serif', fontSize:26, fontWeight:600, color:'#fff', marginBottom:6 }}>Welcome back</div>
-              <div style={{ fontSize:13, color:'#444', marginBottom:22 }}>Sign in to your portfolio</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:22 }}>Sign in to your portfolio</div>
 
               <button onClick={handleGoogle} disabled={loading} style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:12, width:'100%', padding:'15px', marginBottom:16, background:'rgba(255,255,255,.05)', border:'1.5px solid rgba(255,255,255,.1)', borderRadius:16, color:'#ddd', fontSize:15, fontWeight:600, cursor:'pointer', fontFamily:'Plus Jakarta Sans, sans-serif' }}>
                 <GoogleSVG />
@@ -168,36 +168,36 @@ export default function AuthPage() {
               </button>
 
               <div style={{ display:'flex', alignItems:'center', gap:10, margin:'4px 0 12px' }}>
-                <div style={{ flex:1, height:1, background:'#151518' }}/>
-                <span style={{ fontSize:12, color:'#2a2a2a', whiteSpace:'nowrap' }}>or continue with</span>
-                <div style={{ flex:1, height:1, background:'#151518' }}/>
+                <div style={{ flex:1, height:1, background:'rgba(255,255,255,0.08)' }}/>
+                <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)', whiteSpace:'nowrap' }}>or continue with</span>
+                <div style={{ flex:1, height:1, background:'rgba(255,255,255,0.08)' }}/>
               </div>
 
               {[{icon:'✉️', label:'Email & Password', to:'email'}, {icon:'📱', label:'Phone OTP', to:'phone'}].map(m => (
                 <button key={m.to} onClick={() => setMode(m.to)} style={{ display:'flex', alignItems:'center', gap:12, width:'100%', padding:'14px 16px', background:'rgba(255,255,255,.02)', border:'1.5px solid rgba(255,255,255,.06)', borderRadius:16, color:'#aaa', fontSize:14, fontWeight:500, cursor:'pointer', fontFamily:'Plus Jakarta Sans, sans-serif', marginBottom:8 }}>
                   <span style={{ fontSize:20, width:28 }}>{m.icon}</span>
                   <span>{m.label}</span>
-                  <span style={{ marginLeft:'auto', color:'#2a2a2a', fontSize:22 }}>›</span>
+                  <span style={{ marginLeft:'auto', color:'rgba(255,255,255,0.2)', fontSize:22 }}>›</span>
                 </button>
               ))}
 
-              <div style={{ textAlign:'center', marginTop:16, fontSize:11, color:'#1a1a1a' }}>🔒 DPDP compliant · Encrypted sessions</div>
+              <div style={{ textAlign:'center', marginTop:16, fontSize:11, color:'rgba(255,255,255,0.3)' }}>🔒 DPDP compliant · Encrypted sessions</div>
             </div>
           )}
 
           {mode === 'email' && (
             <div style={{ animation:'fadeUp .3s ease' }}>
-              <button onClick={() => setMode('home')} style={{ background:'none', border:'none', color:'#444', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
+              <button onClick={() => setMode('home')} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.5)', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
               {/* Login / Register toggle */}
               <div style={{ display:'flex', gap:0, marginBottom:16, background:'#111116', borderRadius:12, padding:3 }}>
                 {['login','register'].map(m=>(
-                  <button key={m} onClick={()=>setEmailMode(m)} style={{ flex:1, padding:'9px', borderRadius:10, border:'none', cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif', background:emailMode===m?'#1e1e22':'transparent', color:emailMode===m?'#fff':'#444', transition:'all .2s' }}>
+                  <button key={m} onClick={()=>setEmailMode(m)} style={{ flex:1, padding:'9px', borderRadius:10, border:'none', cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif', background:emailMode===m?'#1e1e22':'transparent', color:emailMode===m?'#fff':'rgba(255,255,255,0.3)', transition:'all .2s' }}>
                     {m==='login'?'Sign In':'Create Account'}
                   </button>
                 ))}
               </div>
               <div style={{ fontFamily:'"Clash Display", sans-serif', fontSize:24, fontWeight:600, color:'#fff', marginBottom:6 }}>{emailMode==='login'?'Welcome back':'Create account'}</div>
-              <div style={{ fontSize:13, color:'#444', marginBottom:4 }}>{emailMode==='login'?'Sign in with email & password':'Register with email & password'}</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:4 }}>{emailMode==='login'?'Sign in with email & password':'Register with email & password'}</div>
               {emailMode==='register' && <FloatInput label="Full name" type="text" value={name} onChange={e => setName(e.target.value)} />}
               <FloatInput label="Email address" type="email" value={email} onChange={e => setEmail(e.target.value)} />
               <FloatInput label="Password" type="password" value={pass} onChange={e => setPass(e.target.value)} onKeyDown={e => e.key==='Enter' && handleEmail()} />
@@ -209,9 +209,9 @@ export default function AuthPage() {
 
           {mode === 'phone' && (
             <div style={{ animation:'fadeUp .3s ease' }}>
-              <button onClick={() => setMode('home')} style={{ background:'none', border:'none', color:'#444', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
+              <button onClick={() => setMode('home')} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.5)', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
               <div style={{ fontFamily:'"Clash Display", sans-serif', fontSize:26, fontWeight:600, color:'#fff', marginBottom:6 }}>Phone Sign In</div>
-              <div style={{ fontSize:13, color:'#444', marginBottom:16 }}>We'll send a 6-digit OTP</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:16 }}>We'll send a 6-digit OTP</div>
               <div style={{ display:'flex', gap:8 }}>
                 <select style={{ width:86, flexShrink:0, padding:'12px 8px', background:'#0d0d0f', border:'1.5px solid #1a1a1f', borderRadius:14, color:'#ccc', fontSize:13, outline:'none' }}>
                   <option>+91 🇮🇳</option><option>+1 🇺🇸</option><option>+44 🇬🇧</option>
@@ -229,9 +229,9 @@ export default function AuthPage() {
 
           {mode === 'otp' && (
             <div style={{ animation:'fadeUp .3s ease' }}>
-              <button onClick={() => { setMode('phone'); setOtp(Array(6).fill('')); }} style={{ background:'none', border:'none', color:'#444', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
+              <button onClick={() => { setMode('phone'); setOtp(Array(6).fill('')); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.5)', fontSize:13, cursor:'pointer', padding:'0 0 12px', fontFamily:'Plus Jakarta Sans, sans-serif' }}>← Back</button>
               <div style={{ fontFamily:'"Clash Display", sans-serif', fontSize:26, fontWeight:600, color:'#fff', marginBottom:6 }}>Enter OTP</div>
-              <div style={{ fontSize:13, color:'#444' }}>Sent to +91 {phone.slice(0,2)}••••{phone.slice(-2)}</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>Sent to +91 {phone.slice(0,2)}••••{phone.slice(-2)}</div>
               {demoOtp && (
                 <div style={{ background:'rgba(74,222,128,.06)', border:'1px solid rgba(74,222,128,.15)', borderRadius:10, padding:'8px 14px', fontSize:13, color:'#555', margin:'12px 0', textAlign:'center' }}>
                   Demo OTP: <strong style={{ color:'#4ade80' }}>{demoOtp}</strong>
@@ -254,7 +254,7 @@ export default function AuthPage() {
           )}
         </div>
 
-        <div style={{ textAlign:'center', marginTop:20, fontSize:11, color:'#1a1a1a' }}>Secured with JWT HS256 · FinTrack v2.0</div>
+        <div style={{ textAlign:'center', marginTop:20, fontSize:11, color:'rgba(255,255,255,0.2)' }}>Secured with JWT HS256 · FinTrack v2.0</div>
       </div>
 
       <style>{`
