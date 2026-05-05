@@ -7,6 +7,8 @@ import { Chart, registerables } from 'chart.js';
 import toast from 'react-hot-toast';
 Chart.register(...registerables);
 
+import { useNavigate } from 'react-router-dom';
+
 const fmt  = n => '₹' + Number(n||0).toLocaleString('en-IN');
 const GREET = () => { const h=new Date().getHours(); if(h<12)return 'Good morning'; if(h<17)return 'Good afternoon'; return 'Good evening'; };
 
@@ -22,14 +24,15 @@ function useCountUp(target, dur=900) {
 }
 
 const QUICK_ACTIONS = [
-  { icon:'➕', label:'Add Txn',    path:'/transactions' },
-  { icon:'📊', label:'Budgets',    path:'/budgets' },
-  { icon:'🎯', label:'Goals',      path:'/goals' },
-  { icon:'📈', label:'Invest',     path:'/investments' },
+  { icon:<AddIcon/>,     label:'Add Txn',    path:'/transactions' },
+  { icon:<BudgetIcon/>,  label:'Budgets',    path:'/budgets' },
+  { icon:<GoalIcon/>,    label:'Goals',      path:'/goals' },
+  { icon:<InvestIcon/>,  label:'Invest',     path:'/investments' },
 ];
 
 export default function HomePage() {
   const { user, tokenStatus, secsLeft, fmtCountdown, refreshToken } = useAuth();
+  const navigate = useNavigate();
   const [overview,setOverview]=useState(null);
   const [trends,setTrends]=useState([]);
   const [loading,setLoading]=useState(true);
@@ -119,13 +122,14 @@ export default function HomePage() {
       {/* Quick Actions */}
       <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginBottom:14}}>
         {QUICK_ACTIONS.map(a=>(
-          <div key={a.label} onClick={()=>window.location.href=a.path}
+          <div key={a.label} onClick={()=>navigate(a.path)}
             style={{background:'#0d0d0f',border:'1px solid #111116',borderRadius:16,padding:'12px 6px',textAlign:'center',cursor:'pointer'}}>
-            <div style={{fontSize:22,marginBottom:5}}>{a.icon}</div>
+            <div style={{width:24,height:24,margin:'0 auto 6px',color:'#4ade80'}}>{a.icon}</div>
             <div style={{fontSize:10,color:'#555',fontWeight:500}}>{a.label}</div>
           </div>
         ))}
       </div>
+
 
       {/* Stats Row */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
@@ -168,7 +172,9 @@ export default function HomePage() {
           {overview.accounts.map(a=>(
             <div key={a.id} style={{background:'#0d0d0f',border:'1px solid #111116',borderRadius:18,padding:'14px',marginBottom:8,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
               <div style={{display:'flex',gap:10,alignItems:'center'}}>
-                <div style={{width:38,height:38,borderRadius:12,background:a.color||'rgba(74,144,255,.15)',border:'1px solid rgba(74,144,255,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:17}}>🏦</div>
+                <div style={{width:38,height:38,borderRadius:12,background:a.color||'rgba(74,144,255,.15)',border:'1px solid rgba(74,144,255,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:17,color:'#4a9eff'}}>
+                  <BankIcon/>
+                </div>
                 <div>
                   <div style={{fontSize:14,fontWeight:600,color:'#e0e0e0'}}>{a.name}</div>
                   <div style={{fontSize:11,color:'#333',marginTop:1,textTransform:'capitalize'}}>{a.type}</div>
@@ -187,7 +193,9 @@ export default function HomePage() {
           <div style={{background:'#0d0d0f',border:'1px solid #111116',borderRadius:20,overflow:'hidden'}}>
             {overview.recent_transactions.map((t,i)=>(
               <div key={t.id} style={{display:'flex',alignItems:'center',gap:12,padding:'13px 14px',borderBottom:i<overview.recent_transactions.length-1?'1px solid #0a0a0c':'none'}}>
-                <div style={{width:36,height:36,borderRadius:11,background:t.type==='income'?'rgba(74,222,128,.1)':'rgba(248,113,113,.1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16}}>{t.category_icon||'💰'}</div>
+                <div style={{width:36,height:36,borderRadius:11,background:t.type==='income'?'rgba(74,222,128,.1)':'rgba(248,113,113,.1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:t.type==='income'?'#4ade80':'#f87171'}}>
+                  {t.type==='income'?<TrendUpIcon/>:<TrendDownIcon/>}
+                </div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:500,color:'#e0e0e0'}}>{t.title}</div>
                   <div style={{fontSize:10,color:'#333',marginTop:2}}>{new Date(t.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})} · {t.category_name||'General'}</div>
@@ -201,7 +209,7 @@ export default function HomePage() {
 
       {!overview?.recent_transactions?.length&&!loading&&(
         <div style={{textAlign:'center',padding:'50px 20px'}}>
-          <div style={{fontSize:48,marginBottom:12}}>📊</div>
+          <div style={{fontSize:48,marginBottom:12,color:'#333'}}><TrendUpIcon style={{width:48,height:48}}/></div>
           <div style={{fontFamily:'"Clash Display",sans-serif',fontSize:18,color:'#fff',marginBottom:8}}>No transactions yet</div>
           <div style={{fontSize:13,color:'#444'}}>Add your first transaction to get started</div>
         </div>
@@ -211,3 +219,12 @@ export default function HomePage() {
     </div>
   );
 }
+
+function AddIcon()       { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>; }
+function BudgetIcon()    { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>; }
+function GoalIcon()      { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>; }
+function InvestIcon()    { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>; }
+function BankIcon()      { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>; }
+function TrendUpIcon()   { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>; }
+function TrendDownIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>; }
+
