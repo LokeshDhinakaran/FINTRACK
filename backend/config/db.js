@@ -9,16 +9,21 @@ const db = new Database(path.join(__dirname, '../fintrack.sqlite'));
 // Wrapper (same mysql2 style)
 const pool = {
   query: async (sql, params = []) => {
+    // better-sqlite3 doesn't support Date objects, convert to strings
+    const sanitizedParams = params.map(p => p instanceof Date ? p.toISOString() : p);
+
+
     const isSelect =
       sql.trim().toUpperCase().startsWith('SELECT') ||
       sql.trim().toUpperCase().startsWith('SHOW') ||
       sql.trim().toUpperCase().startsWith('PRAGMA');
 
     if (isSelect) {
-      const rows = db.prepare(sql).all(params);
+      const rows = db.prepare(sql).all(sanitizedParams);
       return [rows, []];
     } else {
-      const result = db.prepare(sql).run(params);
+      const result = db.prepare(sql).run(sanitizedParams);
+
       return [{ insertId: result.lastInsertRowid, affectedRows: result.changes }, []];
     }
   },
