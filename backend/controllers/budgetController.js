@@ -7,8 +7,16 @@ exports.getAll = async (req, res, next) => {
       `SELECT b.*, c.name AS category_name, c.icon,
         COALESCE((
           SELECT SUM(t.amount) FROM transactions t
-          WHERE t.user_id=b.user_id AND t.category_id=b.category_id
-          AND t.type='expense' AND MONTH(t.date)=MONTH(b.start_date) AND YEAR(t.date)=YEAR(b.start_date)
+          WHERE t.user_id=b.user_id
+          AND (b.category_id IS NULL OR t.category_id=b.category_id)
+          AND t.type='expense'
+          AND (
+            (b.period='monthly'  AND strftime('%Y-%m', t.date) = strftime('%Y-%m', 'now'))
+            OR
+            (b.period='weekly'   AND strftime('%Y-%W', t.date) = strftime('%Y-%W', 'now'))
+            OR
+            (b.period='yearly'   AND strftime('%Y',    t.date) = strftime('%Y',    'now'))
+          )
         ), 0) AS spent
        FROM budgets b LEFT JOIN categories c ON b.category_id=c.id
        WHERE b.user_id=? ORDER BY b.created_at DESC`,

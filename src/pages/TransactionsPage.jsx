@@ -151,7 +151,7 @@ export default function TransactionsPage() {
           { val:'expense', label:'Expense', bg:'rgba(248,113,113,.15)',c:'#f87171', bc:'rgba(248,113,113,.3)' },
         ].map(f => (
           <button key={f.val} onClick={() => setTypeFilter(f.val)}
-            style={{ padding:'7px 16px', borderRadius:20, border:'none', cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif',
+            style={{ padding:'7px 16px', borderRadius:20, cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif',
               background: typeFilter===f.val ? f.bg : '#0d0d0f',
               color:       typeFilter===f.val ? f.c  : '#444',
               border:     `1px solid ${typeFilter===f.val ? f.bc : '#111116'}`,
@@ -245,7 +245,7 @@ export default function TransactionsPage() {
             <div style={{ display:'flex', gap:4, marginBottom:16, background:'#111116', borderRadius:12, padding:3 }}>
               {[{v:'expense',l:'💸 Expense',c:'#f87171'},{v:'income',l:'💰 Income',c:'#4ade80'}].map(t => (
                 <button key={t.v} onClick={() => setForm(p => ({ ...p, type:t.v, category_id:'' }))}
-                  style={{ flex:1, padding:'9px', borderRadius:10, border:'none', cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif',
+                  style={{ flex:1, padding:'9px', borderRadius:10, cursor:'pointer', fontSize:12, fontWeight:600, fontFamily:'Plus Jakarta Sans,sans-serif',
                     background: form.type===t.v ? t.c+'18' : 'transparent',
                     color:       form.type===t.v ? t.c         : '#444',
                     border:     `1px solid ${form.type===t.v ? t.c+'30' : 'transparent'}`,

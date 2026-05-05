@@ -466,6 +466,6 @@ const S = {
   statV: { fontSize:11, fontWeight:600, color:'#888' },
   analyBox: { background:'rgba(74,144,255,.05)', border:'1px solid rgba(74,144,255,.1)', borderRadius:12, padding:'12px', marginBottom:12 },
   portCard: { background:'#0d0d0f', border:'1px solid #111116', borderRadius:20, padding:'16px', marginBottom:10 },
-  overlay: { position:'fixed', inset:0, background:'rgba(0,0,0,.88)', backdropFilter:'blur(14px)', display:'flex', alignItems:'flex-end', zIndex:999 },
-  modal: { width:'100%', maxWidth:390, margin:'0 auto', background:'#0d0d0f', borderRadius:'24px 24px 0 0', padding:'24px 20px 36px', border:'1px solid rgba(255,255,255,.06)', animation:'fadeUp .3s ease', boxShadow:'0 -20px 60px rgba(0,0,0,.9)' },
+  overlay: { position:'fixed', inset:0, background:'rgba(0,0,0,.88)', backdropFilter:'blur(14px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:999 },
+  modal: { width:'90%', maxWidth:500, margin:'0 auto', background:'#0d0d0f', borderRadius:'24px', padding:'30px', border:'1px solid rgba(255,255,255,.06)', animation:'fadeUp .3s ease', boxShadow:'0 20px 60px rgba(0,0,0,.9)' },
 };

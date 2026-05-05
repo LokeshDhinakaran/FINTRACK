@@ -21,10 +21,11 @@
 }
 
 html, body { background: var(--bg); color: var(--text); min-height: 100dvh; overscroll-behavior: none; }
-#root { display: flex; justify-content: center; background: var(--bg); min-height: 100dvh; }
+#root { display: flex; justify-content: center; background: var(--bg); min-height: 100dvh; width: 100%; }
 
 .phone-shell {
-  width: 100%; max-width: 390px; min-height: 100dvh;
+  width: 100%; max-width: 1200px; min-height: 100dvh;
+  margin: 0 auto;
   display: flex; flex-direction: column;
   background: var(--bg); position: relative; overflow: hidden;
 }
@@ -82,23 +83,23 @@ select.input { cursor: pointer; }
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
   padding: 4px 0; cursor: pointer; position: relative; transition: opacity .15s;
 }
-.nav-item svg { width: 22px; height: 22px; stroke: #333; fill: none; stroke-width: 1.8; transition: stroke .2s; }
-.nav-item span { font-size: 10px; color: #333; font-weight: 500; transition: color .2s; }
+.nav-item svg { width: 22px; height: 22px; stroke: #666; fill: none; stroke-width: 1.8; transition: stroke .2s; }
+.nav-item span { font-size: 10px; color: #666; font-weight: 500; transition: color .2s; }
 .nav-item.active svg { stroke: var(--green); }
 .nav-item.active span { color: var(--green); }
 .nav-badge { position: absolute; top: 2px; right: calc(50% - 16px); width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
 
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,.88);
-  backdrop-filter: blur(14px); display: flex; align-items: flex-end; z-index: 999;
+  backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; z-index: 999;
 }
 .modal {
-  width: 100%; max-width: 390px; margin: 0 auto;
-  background: var(--card); border-radius: 24px 24px 0 0;
-  padding: 24px 20px 36px;
+  width: 90%; max-width: 500px; margin: 0 auto;
+  background: var(--card); border-radius: 24px;
+  padding: 30px;
   border: 1px solid rgba(255,255,255,.06);
   animation: fadeUp .3s ease;
-  box-shadow: 0 -20px 60px rgba(0,0,0,.9);
+  box-shadow: 0 20px 60px rgba(0,0,0,.9);
 }
 
 .spinner { width:28px; height:28px; border:2px solid #1a2a1a; border-top-color:var(--green); border-radius:50%; animation:spin .7s linear infinite; }

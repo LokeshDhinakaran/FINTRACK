@@ -69,21 +69,23 @@ exports.remove = async (req, res, next) => {
 exports.summary = async (req, res, next) => {
   try {
     const { month, year } = req.query;
+    // Build a YYYY-MM prefix for SQLite strftime comparison
+    const ym = `${year}-${String(month).padStart(2, '0')}`;
     const [rows] = await db.query(
       `SELECT
         SUM(CASE WHEN type='income'   THEN amount ELSE 0 END) AS total_income,
         SUM(CASE WHEN type='expense'  THEN amount ELSE 0 END) AS total_expense,
         SUM(CASE WHEN type='income'   THEN amount ELSE -amount END) AS net_savings
        FROM transactions
-       WHERE user_id=? AND MONTH(date)=? AND YEAR(date)=?`,
-      [req.user.id, month, year]
+       WHERE user_id=? AND strftime('%Y-%m', date)=?`,
+      [req.user.id, ym]
     );
     const [byCategory] = await db.query(
       `SELECT c.name, c.icon, c.color, SUM(t.amount) AS total
        FROM transactions t LEFT JOIN categories c ON t.category_id=c.id
-       WHERE t.user_id=? AND t.type='expense' AND MONTH(t.date)=? AND YEAR(t.date)=?
+       WHERE t.user_id=? AND t.type='expense' AND strftime('%Y-%m', t.date)=?
        GROUP BY t.category_id ORDER BY total DESC`,
-      [req.user.id, month, year]
+      [req.user.id, ym]
     );
     res.json({ summary: rows[0], by_category: byCategory });
   } catch (err) { next(err); }

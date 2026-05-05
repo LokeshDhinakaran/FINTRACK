@@ -62,7 +62,7 @@ export default function AppShell() {
 
       {/* More drawer */}
       {moreOpen && (
-        <div style={{ position:'fixed', bottom:64, left:'50%', transform:'translateX(-50%)', width:'100%', maxWidth:390, zIndex:50, padding:'0 16px 8px' }}>
+        <div style={{ position:'fixed', bottom:64, left:'50%', transform:'translateX(-50%)', width:'100%', maxWidth:500, zIndex:50, padding:'0 16px 8px' }}>
           <div style={{ background:'#0d0d0f', border:'1px solid #1a1a1f', borderRadius:20, padding:8, boxShadow:'0 -8px 40px rgba(0,0,0,.8)', animation:'fadeUp .2s ease' }}>
             {[
               { path:'/goals',         icon:'🎯', label:'Goals',         sub:'Savings targets' },

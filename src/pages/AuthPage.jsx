@@ -136,11 +136,11 @@ export default function AuthPage() {
   }
 
   return (
-    <div style={{ minHeight:'100dvh', background:'#030305', display:'flex', justifyContent:'center', alignItems:'center', position:'relative', overflow:'hidden', fontFamily:'Plus Jakarta Sans, sans-serif' }}>
+    <div style={{ width:'100%', minHeight:'100dvh', background:'#030305', display:'flex', justifyContent:'center', alignItems:'center', position:'relative', overflow:'hidden', fontFamily:'Plus Jakarta Sans, sans-serif' }}>
       <div style={{ position:'absolute', width:380, height:380, background:'radial-gradient(circle, rgba(74,222,128,.1) 0%, transparent 70%)', borderRadius:'50%', top:-100, right:-80, animation:'blob-drift 9s ease-in-out infinite' }} />
       <div style={{ position:'absolute', width:300, height:300, background:'radial-gradient(circle, rgba(74,144,255,.08) 0%, transparent 70%)', borderRadius:'50%', bottom:0, left:-60, animation:'blob-drift 12s ease-in-out infinite reverse' }} />
 
-      <div style={{ width:'100%', maxWidth:390, padding:'20px 20px 32px', position:'relative', zIndex:1 }}>
+      <div style={{ width:'100%', maxWidth:460, padding:'40px 30px', position:'relative', zIndex:1, background:'var(--card)', borderRadius:'24px', border:'1px solid var(--border)' }}>
         {/* Logo */}
         <div style={{ display:'flex', alignItems:'center', gap:14, justifyContent:'center', marginBottom:36 }}>
           <div style={{ width:52, height:52, background:'linear-gradient(135deg,#4ade80,#22c55e)', borderRadius:18, display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 8px 32px rgba(74,222,128,.35)' }}>
