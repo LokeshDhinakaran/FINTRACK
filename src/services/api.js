@@ -28,7 +28,7 @@ api.interceptors.response.use(
       }
       orig._retry = true; isRefreshing = true;
       try {
-        const { data } = await axios.post('/api/auth/refresh', {}, { withCredentials: true });
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh`, {}, { withCredentials: true });
         const token = data.access_token;
         localStorage.setItem('fintrack_token', token);
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
