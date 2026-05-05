@@ -1,53 +1,47 @@
-// config/db.js — SQLite wrapper with mysql2 API shim
-const sqlite3 = require('sqlite3');
-const { open } = require('sqlite');
+// config/db.js — SQLite wrapper (better-sqlite3)
+const Database = require('better-sqlite3');
 const path = require('path');
 require('dotenv').config();
 
-// Open SQLite database
-const dbPromise = open({
-  filename: path.join(__dirname, '../fintrack.sqlite'),
-  driver: sqlite3.Database
-});
+// Open DB (sync)
+const db = new Database(path.join(__dirname, '../fintrack.sqlite'));
 
-// A wrapper that mimics mysql2/promise .query() behavior
+// Wrapper (same mysql2 style)
 const pool = {
   query: async (sql, params = []) => {
-    const db = await dbPromise;
-    // Basic heuristic to determine if query returns rows or affects rows
-    const isSelect = sql.trim().toUpperCase().startsWith('SELECT') || 
-                     sql.trim().toUpperCase().startsWith('SHOW') || 
-                     sql.trim().toUpperCase().startsWith('PRAGMA');
-    
+    const isSelect =
+      sql.trim().toUpperCase().startsWith('SELECT') ||
+      sql.trim().toUpperCase().startsWith('SHOW') ||
+      sql.trim().toUpperCase().startsWith('PRAGMA');
+
     if (isSelect) {
-      const rows = await db.all(sql, params);
-      return [rows, []]; // Return array of rows, plus empty fields array
+      const rows = db.prepare(sql).all(params);
+      return [rows, []];
     } else {
-      const result = await db.run(sql, params);
-      // mysql2 returns { insertId, affectedRows }
-      return [{ insertId: result.lastID, affectedRows: result.changes }, []];
+      const result = db.prepare(sql).run(params);
+      return [{ insertId: result.lastInsertRowid, affectedRows: result.changes }, []];
     }
   },
-  execute: async function(sql, params) {
+
+  execute: async function (sql, params) {
     return this.query(sql, params);
   },
+
   getConnection: async () => {
     return {
       query: pool.query,
       execute: pool.execute,
-      release: () => {}
+      release: () => { },
     };
-  }
+  },
 };
 
-// Verify connection on startup
-dbPromise
-  .then(() => {
-    console.log('✅  SQLite connected — fintrack.sqlite');
-  })
-  .catch(err => {
-    console.error('❌  SQLite connection failed:', err.message);
-    process.exit(1);
-  });
+// Startup check
+try {
+  console.log('✅ SQLite connected — fintrack.sqlite');
+} catch (err) {
+  console.error('❌ SQLite connection failed:', err.message);
+  process.exit(1);
+}
 
 module.exports = pool;
